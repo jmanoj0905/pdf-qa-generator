@@ -12,6 +12,7 @@ from PIL import Image
 import pytesseract
 import shutil
 import streamlit as st
+from streamlit_chromadb_connection.chromadb_connection import ChromadbConnection
 import time
 import dotenv
 
@@ -53,13 +54,31 @@ if uploaded_file is not None:
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
     chunks = text_splitter.split_text(text)
     documents = [Document(page_content=chunk) for chunk in chunks]
+    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     
+
+    
+    # vector_db = Chroma.from_documents(
+    #     documents,
+    #     embedding_model,
+    #     persist_directory=db_path
+    # )
+    
+
     db_path = "/tmp/chroma_db"
     if os.path.exists(db_path):
         shutil.rmtree(db_path)
 
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    
+    os.makedirs(db_path, exist_ok=True)
+
+    configuration = {
+        "client": "PersistentClient",
+        "path": db_path
+    }
+    conn = st.connection("chromadb",
+                        type=ChromadbConnection,
+                        **configuration)
+
     vector_db = Chroma.from_documents(
         documents,
         embedding_model,
