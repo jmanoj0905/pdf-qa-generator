@@ -12,3 +12,4 @@ python-dotenv
 sentence-transformers
 numpy
 pandas
+faiss-cpu
