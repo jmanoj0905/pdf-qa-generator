@@ -6,6 +6,7 @@ from langchain_groq import ChatGroq
 from langchain.schema import Document
 from langchain_community.vectorstores import Chroma
 from chromadb.config import Settings
+import chromadb
 import fitz
 import io
 from PIL import Image
@@ -66,24 +67,22 @@ if uploaded_file is not None:
     
 
     db_path = "/tmp/chroma_db"
+
+    # Clean up existing database if it exists
     if os.path.exists(db_path):
         shutil.rmtree(db_path)
 
+    # Create the directory
     os.makedirs(db_path, exist_ok=True)
 
-    configuration = {
-        "client": "PersistentClient",
-        "path": db_path
-    }
-    conn = st.connection("chromadb",
-                        type=ChromadbConnection,
-                        **configuration)
-
+    # Store embeddings into ChromaDB
     vector_db = Chroma.from_documents(
         documents,
         embedding_model,
         persist_directory=db_path
     )
+
+    retriever = vector_db.as_retriever(search_kwargs={"k": 10})
 
     retriever = vector_db.as_retriever(search_kwargs={"k": 10})
     st.sidebar.success("**Text Splitting and Embedding Complete!**")
