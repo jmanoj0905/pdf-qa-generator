@@ -57,7 +57,7 @@ if uploaded_file is not None:
         shutil.rmtree(db_path)
 
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vector_db = Chroma(persist_directory="db", embedding_function=embeddings, settings={"chroma_db_impl": "duckdb"})
+    vector_db = Chroma(persist_directory="/mount/tmp/db", embedding_function=embeddings, settings={"chroma_db_impl": "duckdb"})
 
     retriever = vector_db.as_retriever(search_kwargs={"k": 10})
     st.sidebar.success("**Text Splitting and Embedding Complete!**")
