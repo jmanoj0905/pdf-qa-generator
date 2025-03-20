@@ -21,3 +21,10 @@ PDF Q&A Generator extracts text from PDFs, generates vector embeddings, and form
    ```sh
    git clone https://github.com/your-username/pdf-qa-generator.git
    cd pdf-qa-generator
+2. Create a venv
+3. Install dependencies
+   ```sh
+   pip install -r requirements.txt
+4. Run using streamlit
+   ```sh
+   streamlit run app.py
