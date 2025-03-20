@@ -54,14 +54,12 @@ if uploaded_file is not None:
     chunks = text_splitter.split_text(text)
     documents = [Document(page_content=chunk) for chunk in chunks]
     
-    db_path = "./chroma_db"
+    db_path = "/tmp/chroma_db"
     if os.path.exists(db_path):
         shutil.rmtree(db_path)
 
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     
-    db_path = "/tmp/chroma_db"
-
     vector_db = Chroma.from_documents(
         documents,
         embedding_model,
