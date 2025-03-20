@@ -1,22 +1,16 @@
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain.schema import Document
-from langchain_community.vectorstores import Chroma
-from chromadb.config import Settings
-import chromadb
 import fitz
 import io
 from PIL import Image
 import pytesseract
-import shutil
 import streamlit as st
-from streamlit_chromadb_connection.chromadb_connection import ChromadbConnection
 import time
 import dotenv
-
 
 dotenv.load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
@@ -57,33 +51,9 @@ if uploaded_file is not None:
     documents = [Document(page_content=chunk) for chunk in chunks]
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     
-
+    # Using FAISS instead of ChromaDB (more reliable in Streamlit Cloud)
+    vector_db = FAISS.from_documents(documents, embedding_model)
     
-    # vector_db = Chroma.from_documents(
-    #     documents,
-    #     embedding_model,
-    #     persist_directory=db_path
-    # )
-    
-
-    db_path = "/tmp/chroma_db"
-
-    # Clean up existing database if it exists
-    if os.path.exists(db_path):
-        shutil.rmtree(db_path)
-
-    # Create the directory
-    os.makedirs(db_path, exist_ok=True)
-
-    # Store embeddings into ChromaDB
-    vector_db = Chroma.from_documents(
-        documents,
-        embedding_model,
-        persist_directory=db_path
-    )
-
-    retriever = vector_db.as_retriever(search_kwargs={"k": 10})
-
     retriever = vector_db.as_retriever(search_kwargs={"k": 10})
     st.sidebar.success("**Text Splitting and Embedding Complete!**")
     
@@ -160,7 +130,7 @@ if uploaded_file is not None:
             difficulty = "4 Markers"
 
         if difficulty:
-            print(f"\n{difficulty}\n" + "=" * len(difficulty))
+            st.subheader(difficulty)
             difficulty = None
         st.write(line)
 else:
