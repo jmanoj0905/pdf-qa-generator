@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.env
+.vscode/
+.idea/
+
+# Streamlit & Logs
+.streamlit/
+logs/
+*.log
+
+# ChromaDB (Vector Database)
+chroma_db/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Virtual Environments
+venv/
+.env/
+*.venv/
