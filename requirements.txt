@@ -1,23 +1,14 @@
-# Core dependencies
-langchain>=0.1.0,<0.2.0
-langchain-community>=0.0.10,<0.1.0
-langchain-huggingface>=0.0.6,<0.1.0
-langchain-groq>=0.1.0,<0.2.0
-chromadb>=0.4.18,<0.5.0
-streamlit>=1.27.0,<2.0.0
-streamlit-chromadb-connection>=0.0.1
-
-# PDF processing
-pymupdf>=1.22.0,<2.0.0  # for fitz
-Pillow>=10.0.0,<11.0.0  # for PIL
-pytesseract>=0.3.10,<0.4.0
-
-# Environment management
-python-dotenv>=1.0.0,<2.0.0
-
-# Required for embeddings
-sentence-transformers>=2.2.2,<3.0.0
-
-# Optional but recommended for better performance
-numpy>=1.24.0,<2.0.0
-pandas>=2.0.0,<3.0.0
+langchain
+langchain-community
+langchain-huggingface
+langchain-groq
+chromadb
+streamlit
+streamlit-chromadb-connection
+pymupdf
+Pillow
+pytesseract
+python-dotenv
+sentence-transformers
+numpy
+pandas
