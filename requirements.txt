@@ -1,8 +1,8 @@
+chromadb
 langchain
 langchain-community
 langchain-huggingface
 langchain-groq
-chromadb
 streamlit
 streamlit-chromadb-connection
 pymupdf
